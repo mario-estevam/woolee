@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head-page :: head">
+</head>
+
+
+
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul th:replace="fragments/side-bar :: fragment-bar" >
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav th:replace="fragments/nav-bar :: fragment-nav">
+
+            </nav>
+            <!-- End of Topbar -->
+
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Atualizar Post</h1>
+                </div>
+                <div th:if="${#request.getParameter('msg')} !=null" class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong th:text="${#request.getParameter('msg')}"></strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- Content Row -->
+                <div class="card">
+                <div class="card shadow ">
+
+                    <div class="m-2 w-100">
+                        <div class="w-100">
+                            <div class="card m-2">
+                                <form class="user m-3" th:action="@{/editar/post}" enctype="multipart/form-data"
+                                      method="post" autocomplete="off"  role="form">
+                                    <h1 class="h4 text-gray-900 mb-4">Atualizar Postagem</h1>
+                                    <span class="text-success text-center" th:utext="${successMessage}"></span>
+                                    <br/>
+                                    <div class="form-group">
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <input hidden th:field="${post.id}">
+                                            <input hidden th:field="${post.user.id}">
+                                            <input hidden th:field="${post.user}">
+                                            <input th:field="${post.titulo}" type="text" class="form-control" id="exampleFirstName"
+                                                   placeholder="Titulo">
+                                        </div>
+                                        <br/>
+                                        <div class="col-sm-6">
+                                            <textarea rows="3" th:field="${post.descricao}" type="text" class="form-control" id="exampleLastName"
+                                                      placeholder="Descrição do post">
+                                            </textarea>
+                                        </div>
+                                        <div class="form-group m-3">
+                                            <div th:if="${post.imagemUri != null}">
+                                                <label>Imagem anterior:</label>
+                                                <img width="200px" class="img-fluid" alt="Responsive image" th:src="@{'/images/' + ${post.getImagemUri()}}"/>
+                                                <input required type="file" name="file"/><br />
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <button type="submit" class="ml-2 btn btn-primary">Postar</button>
+                                </form>
+                            </div>
+                        </div>
+                    <!-- End of Main Content -->
+
+                    <!-- Footer -->
+                    <footer th:replace="fragments/footer :: fragment-footer" >
+
+                    </footer>
+                    <!-- End of Footer -->
+
+                </div>
+                <!-- End of Content Wrapper -->
+
+            </div>
+            <!-- End of Page Wrapper -->
+
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
+
+            <!-- Logout Modal-->
+            <div th:replace="fragments/nav-bar :: fragment-logout" >
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<th:block th:replace="fragments/head-page :: body-final"></th:block>
+
+
+
+
+
+</body>
+
+</html>

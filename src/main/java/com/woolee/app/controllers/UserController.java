@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 
@@ -118,6 +117,39 @@ public class UserController {
         return modelAndView;
     }
 
+    @GetMapping(value = "/editar/usuario")
+    public ModelAndView updateUser(){
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user2 = userService.findUserByUserName(auth.getName());
+        modelAndView.addObject("usuario2", user2);
+        modelAndView.setViewName("atualizar-usuario");
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/editar/usuario")
+    public ModelAndView editSave(User user){
+
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user2 = userService.findUserByUserName(auth.getName());
+
+        modelAndView.addObject("usuario2", user2);
+        Boolean confirm = userService.confirmarSenha(user.getSenha(),user.getRepetirSenha());
+
+        if(Boolean.FALSE.equals(confirm)){
+            modelAndView.addObject("senhas","as senhas não coincidem");
+            modelAndView.addObject("usuario", user);
+            modelAndView.setViewName("atualizar-usuario");
+        } else {
+            userService.saveUser(user);
+            modelAndView.addObject("successMessage", "Usuario atualizado com sucesso");
+            modelAndView.addObject("usuario", new User());
+            modelAndView.setViewName("atualizar-usuario");
+        }
+
+        return modelAndView;
+    }
 
 
 

@@ -21,4 +21,13 @@ public class PostagemService {
     public List<Postagem> findAll(){
         return repository.findAll();
     }
+
+    public Postagem findById(Long id){
+        return repository.getById(id);
+    }
+
+    public void delete(Long id){
+        Postagem p = repository.getById(id);
+        repository.delete(p);
+    }
 }
