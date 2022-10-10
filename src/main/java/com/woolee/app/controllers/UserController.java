@@ -157,6 +157,7 @@ public class UserController {
     @RequestMapping("/deletar/usuario/{id}")
     public String doDelete(@PathVariable(name = "id") Long id, RedirectAttributes redirectAttributes){
         userService.deleteUser(id);
+        redirectAttributes.addAttribute("msg", "Usuário desativado com sucesso!");
         return "redirect:/login";
     }
 }

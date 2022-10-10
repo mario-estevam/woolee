@@ -37,6 +37,12 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
+                            <div  th:if="${#request.getParameter('msg')} !=null" class="alert alert-success m-3 alert-dismissible fade show" role="alert">
+                                <strong  th:text="${#request.getParameter('msg')}"></strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
                             <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">

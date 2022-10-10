@@ -127,7 +127,7 @@
                                         </div>
                                     </span>
                                     <p class="card-text" th:text="${pst.descricao}"></p>
-                                    <div th:if="${pst.getImagemUri().equals('')}">
+                                    <div th:if="${pst.imagemUri != null}">
                                         <img class="img-fluid" alt="Responsive image" th:src="@{'/images/' + ${pst.getImagemUri()}}"/>
                                     </div>
                                 </div>

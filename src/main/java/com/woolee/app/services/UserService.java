@@ -82,7 +82,6 @@ public class UserService {
         if (u.getActive()) {
             u.setActive(false);
         }
-
         userRepository.save(u);
     }
 }

@@ -73,11 +73,14 @@ public class PostagemController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user2 = userService.findUserByUserName(auth.getName());
         modelAndView.addObject("usuario2", user2);
-        if(file != null){
+        if(!file.getOriginalFilename().equals("")){
             Random random = new Random();
             Double aleatorio = random.nextDouble();
             postagem.setImagemUri(aleatorio + file.getOriginalFilename());
             fileStorageService.save(file, aleatorio);
+        }else{
+            Postagem postagem1 = service.findById(postagem.getId());
+            postagem.setImagemUri(postagem1.getImagemUri());
         }
         postagem.setDataAtualizacao(new Date());
         postagem.setIsDeleted(false);
@@ -86,6 +89,15 @@ public class PostagemController {
         modelAndView.addObject("post", new Postagem());
         modelAndView.setViewName("atualizar-postagem");
         return modelAndView;
+    }
+
+    @RequestMapping("/curtir/post/{id}")
+    public String curtir(@PathVariable(name = "id") Long id, RedirectAttributes redirectAttributes){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user2 = userService.findUserByUserName(auth.getName());
+        service.curtir(id,user2);
+        redirectAttributes.addAttribute("msg", "Deletado com sucesso");
+        return "redirect:/index";
     }
 
 }
