@@ -22,12 +22,18 @@ public class PostagemService {
         return repository.findAll();
     }
 
+    public List<Postagem> findPostagemByIsDeletedFalse() {return repository.findPostagemByIsDeletedFalse(); }
+
     public Postagem findById(Long id){
         return repository.getById(id);
     }
 
     public void delete(Long id){
         Postagem p = repository.getById(id);
-        repository.delete(p);
+        if(!p.getIsDeleted()){
+            p.setIsDeleted(true);
+        }
+
+        repository.save(p);
     }
 }

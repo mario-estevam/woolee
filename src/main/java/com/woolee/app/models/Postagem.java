@@ -35,4 +35,6 @@ public class Postagem {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date dataAtualizacao;
+
+    private Boolean isDeleted;
 }

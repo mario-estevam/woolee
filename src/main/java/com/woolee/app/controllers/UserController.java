@@ -12,8 +12,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -59,7 +62,7 @@ public class UserController {
         User user = userService.findUserByUserName(auth.getName());
         ModelAndView modelAndView = new ModelAndView("home");
         Postagem postagem = new Postagem();
-        List<Postagem> posts = postagemService.findAll();
+        List<Postagem> posts = postagemService.findPostagemByIsDeletedFalse();
         postagem.setUser(user);
         modelAndView.addObject("usuario2",user);
         modelAndView.addObject("posts",posts);
@@ -151,6 +154,9 @@ public class UserController {
         return modelAndView;
     }
 
-
-
+    @RequestMapping("/deletar/usuario/{id}")
+    public String doDelete(@PathVariable(name = "id") Long id, RedirectAttributes redirectAttributes){
+        userService.deleteUser(id);
+        return "redirect:/login";
+    }
 }

@@ -76,4 +76,13 @@ public class UserService {
         user.setRoles(new HashSet<Role>(Collections.singletonList(userRole)));
         return userRepository.save(user);
     }
+
+    public void deleteUser(Long id) {
+        User u = findById(id);
+        if (u.getActive()) {
+            u.setActive(false);
+        }
+
+        userRepository.save(u);
+    }
 }

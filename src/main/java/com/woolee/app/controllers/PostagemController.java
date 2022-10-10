@@ -43,6 +43,7 @@ public class PostagemController {
            fileStorageService.save(file, aleatorio);
        }
         postagem.setDataCadastro(new Date());
+        postagem.setIsDeleted(false);
         service.insert(postagem);
         return "redirect:/home";
     }
@@ -79,6 +80,7 @@ public class PostagemController {
             fileStorageService.save(file, aleatorio);
         }
         postagem.setDataAtualizacao(new Date());
+        postagem.setIsDeleted(false);
         service.insert(postagem);
         modelAndView.addObject("successMessage", "Post atualizado com sucesso");
         modelAndView.addObject("post", new Postagem());
