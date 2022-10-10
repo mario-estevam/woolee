@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Date;
 import java.util.Random;
 
 
@@ -41,7 +42,8 @@ public class PostagemController {
            postagem.setImagemUri(aleatorio + file.getOriginalFilename());
            fileStorageService.save(file, aleatorio);
        }
-
+        postagem.setDataCadastro(new Date());
+        postagem.setIsDeleted(false);
         service.insert(postagem);
         return "redirect:/home";
     }
@@ -77,6 +79,8 @@ public class PostagemController {
             postagem.setImagemUri(aleatorio + file.getOriginalFilename());
             fileStorageService.save(file, aleatorio);
         }
+        postagem.setDataAtualizacao(new Date());
+        postagem.setIsDeleted(false);
         service.insert(postagem);
         modelAndView.addObject("successMessage", "Post atualizado com sucesso");
         modelAndView.addObject("post", new Postagem());
