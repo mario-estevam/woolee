@@ -137,6 +137,12 @@
                                                 <i class="rounded-circle" th:text="${pst.curtidas}"></i>
                                             </span>
                                     </a>
+                                    <a  th:href="@{'/comentarios/post/' + ${pst.id}}" class="btn btn-primary align-content-end text-decoration-none mt-1">
+                                            <span class="icon text-white">
+                                                <i class="fas fa-comment"></i>
+                                                Comentarios
+                                            </span>
+                                    </a>
                                 </div>
                             </div>
                         </div>

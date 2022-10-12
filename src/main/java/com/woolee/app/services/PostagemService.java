@@ -1,9 +1,11 @@
 package com.woolee.app.services;
 
 
+import com.woolee.app.models.Comentario;
 import com.woolee.app.models.Curtidas;
 import com.woolee.app.models.Postagem;
 import com.woolee.app.models.User;
+import com.woolee.app.repositories.ComentarioRepository;
 import com.woolee.app.repositories.CurtidasRepository;
 import com.woolee.app.repositories.PostagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class PostagemService {
 
     @Autowired
     private CurtidasRepository curtidasRepository;
+
+    @Autowired
+    private ComentarioRepository comentarioRepository;
 
     public Postagem insert(Postagem postagem){
         return repository.save(postagem);
@@ -40,6 +45,14 @@ public class PostagemService {
 
     public Postagem findById(Long id){
         return repository.getById(id);
+    }
+
+    public List<Comentario> getComentsByPost(Postagem postagem){
+        return comentarioRepository.findAllByPostagem(postagem);
+    }
+
+    public void comentarios(Comentario comentario){
+        comentarioRepository.save(comentario);
     }
 
     public void curtir(Long id, User user){
