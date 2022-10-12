@@ -25,6 +25,8 @@ public class Postagem {
 
     private String descricao;
 
+    private Integer curtidas;
+
     @OneToOne
     private User user;
 

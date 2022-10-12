@@ -21,6 +21,7 @@ public class Curtidas {
 
     @OneToOne
     private User user;
+
     @OneToOne
     private Postagem postagem;
 

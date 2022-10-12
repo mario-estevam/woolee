@@ -40,7 +40,8 @@ public class User {
 
     private Boolean active;
 
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "user_tema", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "tema_id"))
     private List<Temas> temas;
 
     @ManyToMany(cascade = CascadeType.MERGE)

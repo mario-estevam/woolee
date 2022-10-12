@@ -96,7 +96,6 @@ public class PostagemController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user2 = userService.findUserByUserName(auth.getName());
         service.curtir(id,user2);
-        redirectAttributes.addAttribute("msg", "Deletado com sucesso");
         return "redirect:/index";
     }
 
