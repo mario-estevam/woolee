@@ -90,7 +90,7 @@
                                         </a>
                                         <a data-toggle="modal" th:attr="data-target='#recordDeleteModal'+${pst.id}" th:href="@{'/deletar/post/' + ${pst.id}}" class="text-decoration-none" >
                                             <span class="icon text-danger">
-                                                <i class="fas fa-trash"></i>
+                                                <i class="fas fa-trash "></i>
                                             </span>
                                         </a>
                                     </div>
@@ -130,13 +130,15 @@
                                     <div th:if="${pst.imagemUri != null}">
                                         <img class="img-fluid" alt="Responsive image" th:src="@{'/images/' + ${pst.getImagemUri()}}"/>
                                     </div>
-                                    <a  th:href="@{'/curtir/post/' + ${pst.id}}" class="btn btn-primary align-content-end text-decoration-none mt-1">
+                                    <p th:text="${curtiu}"></p>
+                                    <button th:id="|post-${pst.id}|" th:onclick="|curtirPost(${pst.id})|"
+                                              class="btn btn-primary align-content-end text-decoration-none mt-1">
                                             <span class="icon text-white">
-                                                <i class="fas fa-heart"></i>
+                                                <i class="fas fa-heart icone-curtida"></i>
                                                 Curtir
-                                                <i class="rounded-circle" th:text="${pst.curtidas}"></i>
+                                                <i class="rounded-circle quantidade-curtidas" th:text="${pst.curtidas}"></i>
                                             </span>
-                                    </a>
+                                    </button>
                                     <a  th:href="@{'/comentarios/post/' + ${pst.id}}" class="btn btn-primary align-content-end text-decoration-none mt-1">
                                             <span class="icon text-white">
                                                 <i class="fas fa-comment"></i>
@@ -175,12 +177,10 @@
 </div>
 
 
+<script src="/js/post.js"></script>
 
-<th:block th:replace="fragments/head-page :: body-final"></th:block>
-
-
-
-
+<th:block th:replace="fragments/head-page :: body-final">
+</th:block>
 
 </body>
 

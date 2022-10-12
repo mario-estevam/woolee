@@ -36,6 +36,10 @@ public class PostagemController {
         this.service = service;
     }
 
+
+
+
+
     @PostMapping(value = "/postar")
     public String postForUser(Postagem postagem, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
        if(file != null){
@@ -94,11 +98,15 @@ public class PostagemController {
     }
 
     @RequestMapping("/curtir/post/{id}")
-    public String curtir(@PathVariable(name = "id") Long id, RedirectAttributes redirectAttributes){
+    @ResponseBody
+    public Integer curtir(@PathVariable(name = "id") Long id, RedirectAttributes redirectAttributes){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user2 = userService.findUserByUserName(auth.getName());
-        service.curtir(id,user2);
-        return "redirect:/index";
+
+         service.curtir(id,user2);
+        Integer curtidas = service.getNumeroCurtidaPost(service.findById(id));
+        System.out.println(curtidas );
+        return curtidas;
     }
 
     @GetMapping(value = "/comentarios/post/{id}")

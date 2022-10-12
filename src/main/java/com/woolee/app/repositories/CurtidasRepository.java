@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface CurtidasRepository extends JpaRepository<Curtidas, Long> {
     Integer countAllByPostagem(Postagem postagem);
     Optional<Curtidas> findByUserAndPostagem(User user, Postagem postagem);
+    Integer countCurtidasByPostagem(Postagem postagem);
+    boolean findCurtidasByUser(User user);
 }

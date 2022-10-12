@@ -67,7 +67,6 @@ public class UserController {
         modelAndView.addObject("usuario2",user);
         modelAndView.addObject("posts",posts);
         modelAndView.addObject("post", postagem);
-
         return modelAndView;
     }
 

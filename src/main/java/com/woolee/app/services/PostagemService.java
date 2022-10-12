@@ -46,6 +46,14 @@ public class PostagemService {
     public Postagem findById(Long id){
         return repository.getById(id);
     }
+    public String curtiuOrNo(User user) {
+        boolean jaCurtiu = curtidasRepository.findCurtidasByUser(user);
+        if (jaCurtiu) {
+            return "curtiu";
+        } else {
+            return "";
+        }
+    }
 
     public List<Comentario> getComentsByPost(Postagem postagem){
         return comentarioRepository.findAllByPostagem(postagem);
@@ -66,6 +74,12 @@ public class PostagemService {
             curtidas.setUser(user);
             curtidasRepository.save(curtidas);
         }
+
+    }
+    public Integer getNumeroCurtidaPost(Postagem postagem){
+
+        return curtidasRepository.countCurtidasByPostagem(postagem);
+
     }
 
     public void delete(Long id){
