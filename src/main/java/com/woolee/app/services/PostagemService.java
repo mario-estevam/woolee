@@ -1,6 +1,7 @@
 package com.woolee.app.services;
 
 
+import com.woolee.app.dtos.PostagemDTO;
 import com.woolee.app.models.Comentario;
 import com.woolee.app.models.Curtidas;
 import com.woolee.app.models.Postagem;
@@ -9,8 +10,11 @@ import com.woolee.app.repositories.ComentarioRepository;
 import com.woolee.app.repositories.CurtidasRepository;
 import com.woolee.app.repositories.PostagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +28,10 @@ public class PostagemService {
     private CurtidasRepository curtidasRepository;
 
     @Autowired
+    private UserService userService;
+
+
+    @Autowired
     private ComentarioRepository comentarioRepository;
 
     public Postagem insert(Postagem postagem){
@@ -34,13 +42,25 @@ public class PostagemService {
         return repository.findAll();
     }
 
-    public List<Postagem> findPostagemByIsDeletedFalse() {
+    public List<PostagemDTO> findPostagemByIsDeletedFalse() {
         List<Postagem> posts = repository.findPostagemByIsDeletedFalse();
+        List<PostagemDTO> postsDTO = new ArrayList<>();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUserName(auth.getName());
         posts.forEach( p -> {
+            PostagemDTO postagemDTO = new PostagemDTO();
             Integer curtidas = curtidasRepository.countAllByPostagem(p);
             p.setCurtidas(curtidas);
+            Optional<Curtidas> jaCurtiu = curtidasRepository.findByUserAndPostagem(user,p);
+            postagemDTO.setPostagem(p);
+            if(jaCurtiu.isPresent()){
+                postagemDTO.setCurtido(true);
+            }else{
+                postagemDTO.setCurtido(false);
+            }
+            postsDTO.add(postagemDTO);
         });
-        return posts;
+        return postsDTO;
     }
 
     public Postagem findById(Long id){

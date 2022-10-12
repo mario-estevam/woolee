@@ -1,6 +1,7 @@
 package com.woolee.app.controllers;
 
 
+import com.woolee.app.dtos.PostagemDTO;
 import com.woolee.app.models.Postagem;
 import com.woolee.app.models.User;
 import com.woolee.app.repositories.RoleRepository;
@@ -62,7 +63,7 @@ public class UserController {
         User user = userService.findUserByUserName(auth.getName());
         ModelAndView modelAndView = new ModelAndView("home");
         Postagem postagem = new Postagem();
-        List<Postagem> posts = postagemService.findPostagemByIsDeletedFalse();
+        List<PostagemDTO> posts = postagemService.findPostagemByIsDeletedFalse();
         postagem.setUser(user);
         modelAndView.addObject("usuario2",user);
         modelAndView.addObject("posts",posts);
