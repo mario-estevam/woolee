@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ComentarioRepository extends JpaRepository<Comentario, Long> {
-    List<Comentario> findAllByPostagem(Postagem postagem);
+    List<Comentario> findComentariosByIsDeletedIsFalseAndPostagem(Postagem postagem);
 }

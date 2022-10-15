@@ -60,6 +60,14 @@ public class PostagemController {
         redirectAttributes.addAttribute("msg", "Deletado com sucesso");
         return "redirect:/home";
     }
+    @RequestMapping("/deletar/comentario/{id}")
+    public String doDeleteComentario(@PathVariable(name = "id") Long id, RedirectAttributes redirectAttributes){
+        service.deleteComentario(id);
+        Comentario comentario = service.findComentarioById(id);
+        redirectAttributes.addAttribute("msg", "Deletado com sucesso");
+        return "redirect:/comentarios/post/".concat(comentario.getPostagem().getId().toString());
+    }
+
 
     @GetMapping(value = "/editar/post/{id}")
     public ModelAndView updateUser(@PathVariable("id") Long id){
@@ -105,7 +113,6 @@ public class PostagemController {
 
          service.curtir(id,user2);
         Integer curtidas = service.getNumeroCurtidaPost(service.findById(id));
-        System.out.println(curtidas );
         return curtidas;
     }
 
@@ -119,6 +126,7 @@ public class PostagemController {
         modelAndView.addObject("post", postagem);
         Comentario comentario = new Comentario();
         comentario.setPostagem(postagem);
+        comentario.setIsDeleted(false);
         comentario.setUser(user2);
         List<Comentario> comentarios = service.getComentsByPost(postagem);
         modelAndView.addObject("comentario", comentario);

@@ -8,3 +8,11 @@ const curtirPost = async (id) =>{
       iconeCurtidas.classList.toggle('text-danger');
       quantidadeCurtidas.innerHTML = value;
    });}
+
+function openModalExcluir(id) {
+   const hrefItem = document.querySelector('.href-item');
+
+   $('#exampleModal').modal('show')
+   hrefItem.setAttribute('href', `/deletar/comentario/${id}`);
+
+}

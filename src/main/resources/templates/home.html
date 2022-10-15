@@ -130,7 +130,6 @@
                                     <div th:if="${pst.imagemUri != null}">
                                         <img class="img-fluid" alt="Responsive image" th:src="@{'/images/' + ${pst.getImagemUri()}}"/>
                                     </div>
-                                    <p th:text="${curtiu}"></p>
                                     <button th:id="|post-${pst.id}|" th:onclick="|curtirPost(${pst.id})|"
                                               class="btn btn-primary align-content-end text-decoration-none mt-1">
                                             <span class="icon text-white">

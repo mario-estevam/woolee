@@ -56,13 +56,25 @@ public class PostagemService {
     }
 
     public List<Comentario> getComentsByPost(Postagem postagem){
-        return comentarioRepository.findAllByPostagem(postagem);
+        return comentarioRepository.findComentariosByIsDeletedIsFalseAndPostagem(postagem);
     }
 
     public void comentarios(Comentario comentario){
+        comentario.setIsDeleted(false);
         comentarioRepository.save(comentario);
     }
 
+    public Comentario findComentarioById(Long id){
+        return comentarioRepository.getById(id);
+    }
+
+    public void deleteComentario(Long id){
+            Comentario c = comentarioRepository.getById(id);
+            if(!c.getIsDeleted()){
+                c.setIsDeleted(true);
+            }
+            comentarioRepository.save(c);
+    }
     public void curtir(Long id, User user){
         Postagem postagem = repository.getById(id);
         Curtidas curtidas = new Curtidas();
