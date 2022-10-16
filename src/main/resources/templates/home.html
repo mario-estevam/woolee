@@ -130,11 +130,10 @@
                                     <div th:if="${pst.postagem.imagemUri != null}">
                                         <img class="img-fluid" alt="Responsive image" th:src="@{'/images/' + ${pst.postagem.getImagemUri()}}"/>
                                     </div>
-                                    <p th:text="${pst.curtido}"></p>
                                     <button th:id="|post-${pst.postagem.id}|" th:onclick="|curtirPost(${pst.postagem.id})|"
                                               class="btn btn-primary align-content-end text-decoration-none mt-1">
                                             <span class="icon text-white">
-                                                <i class="fas fa-heart icone-curtida"></i>
+                                                <i class="fas fa-heart icone-curtida" th:classappend="${pst.curtido} ? 'text-danger': ''"></i>
                                                 Curtir
                                                 <i class="rounded-circle quantidade-curtidas" th:text="${pst.postagem.curtidas}"></i>
                                             </span>

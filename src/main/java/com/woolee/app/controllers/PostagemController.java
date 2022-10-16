@@ -37,9 +37,6 @@ public class PostagemController {
     }
 
 
-
-
-
     @PostMapping(value = "/postar")
     public String postForUser(Postagem postagem, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
        if(file != null){
@@ -80,6 +77,23 @@ public class PostagemController {
         modelAndView.setViewName("atualizar-postagem");
         return modelAndView;
     }
+
+    @GetMapping(value = "/comentario/editar/{id}")
+    public ModelAndView updateComentario(@PathVariable("id") Long id){
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user2 = userService.findUserByUserName(auth.getName());
+        modelAndView.addObject("usuario2", user2);
+
+        Comentario comentario = service.findComentarioById(id);
+        Postagem postagem = service.findById(comentario.getPostagem().getId());
+        modelAndView.addObject("post", postagem);
+        modelAndView.addObject("comentario", comentario);
+        modelAndView.setViewName("edit-comentarios-postagem");
+        return modelAndView;
+    }
+
+
 
     @PostMapping(value = "/editar/post")
     public ModelAndView editSave(Postagem postagem, @RequestParam(value = "file", required = false) MultipartFile file){
@@ -141,4 +155,5 @@ public class PostagemController {
         return "redirect:/comentarios/post/" + comentario.getPostagem().getId().toString();
     }
 
+    
 }

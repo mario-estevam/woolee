@@ -38,7 +38,7 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Comentários</h1>
+                    <h1 class="h3 mb-0 text-gray-800">Editar comentário </h1>
 
                 </div>
                 <div th:if="${#request.getParameter('msg')} !=null" class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -50,21 +50,6 @@
                 <!-- Content Row -->
                 <div class="card">
                 <div class="card shadow ">
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                   Tem certeza que deseja excluir o comentário?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-success" data-dismiss="modal">Não, cancelar.</button>
-                                    <a  type="button" class="btn btn-danger href-item">Sim, excluir.</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="m-2 w-100">
                         <div class="card m-3">
@@ -81,45 +66,21 @@
                                     <div th:if="${post.imagemUri != null}">
                                         <img class="img-fluid" alt="Responsive image" th:src="@{'/images/' + ${post.getImagemUri()}}"/>
                                     </div>
-                                    <a  th:href="@{'/curtir/post/' + ${post.id}}" class="btn btn-primary align-content-end text-decoration-none mt-1">
-                                            <span class="icon text-white">
-                                                <i class="fas fa-heart"></i>
-                                                Curtir
-                                                <i class="rounded-circle" th:text="${post.curtidas}"></i>
-                                            </span>
-                                    </a>
+
                                 </div>
                             <form class="user m-3" action="/comentar/post"
                                   method="post" autocomplete="on"  role="form">
                                 <input hidden th:field="${comentario.user}">
+                                <input hidden th:field="${comentario.id}">
+
                                 <input hidden th:field="${comentario.postagem}">
                                 <div class="form-group mt-2">
                                     <textarea th:field="${comentario.descricao}" class="form-control"placeholder="comentar" id="exampleFormControlTextarea1" rows="3"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-dark">Comentar</button>
+                                <button type="submit" class="btn btn-dark">Salvar</button>
                             </form>
                             </div>
-                        <div class="m-3">
-                            <strong>Comentários</strong>
-                            <div th:each="coment : ${comentarios}"  class="list-group-item list-group-item-action flex-column align-items-start">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <small class="text-muted" th:text="${coment.user.userName}"></small>
-                                    <div class="dropdown">
-                                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a th:href="@{'/comentario/editar/' + ${coment.id}}" class="dropdown-item" type="button"> <i class="fas fa-edit"></i> Editar</a>
-                                            <button  th:onclick="openModalExcluir([[${coment.id}]])" class="dropdown-item" type="button"> <i class="fas fa-comment-slash"></i> Excluir</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="mb-1" th:text="${coment.descricao}"></p><div class="dropdown">
 
-                            </div>
-
-                            </div>
-                        </div>
 
                         </div>
                     </div>
