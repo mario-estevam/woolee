@@ -27,7 +27,7 @@ public class FileStorageService{
 
     public void init() {
         try {
-            Files.createDirectory(root);
+            Files.createDirectories(root);
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize folder for upload!");
         }

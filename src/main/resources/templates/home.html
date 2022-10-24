@@ -81,7 +81,7 @@
 
                             <div th:each="pst : ${posts}" class="card m-3">
                                 <div class="card-header d-inline-block">
-                                    <strong th:text="${pst.postagem.user.userName}"></strong>
+                                    <a th:href="@{'/visualizar/usuario/' + ${pst.postagem.user.id}}"><strong th:text="${pst.postagem.user.userName}"></strong></a>
                                     <div class="row d-inline-block" th:if="${pst.postagem.user.userName == usuario2.userName}">
                                         <a  th:href="@{'/editar/post/' + ${pst.postagem.id}}" class="align-content-end text-decoration-none ml-3">
                                             <span class="icon text-primary">

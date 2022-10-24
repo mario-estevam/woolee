@@ -2,9 +2,12 @@ package com.woolee.app.controllers;
 
 
 import com.woolee.app.dtos.PostagemDTO;
+import com.woolee.app.models.Comentario;
+import com.woolee.app.models.Conexao;
 import com.woolee.app.models.Postagem;
 import com.woolee.app.models.User;
 import com.woolee.app.repositories.RoleRepository;
+import com.woolee.app.services.ConexaoService;
 import com.woolee.app.services.PostagemService;
 import com.woolee.app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,7 +40,8 @@ public class UserController {
     @Autowired
     PostagemService postagemService;
 
-
+    @Autowired
+    ConexaoService conexaoService;
 
     @GetMapping(value={"/", "/login"})
     public ModelAndView login(){
@@ -68,6 +73,20 @@ public class UserController {
         modelAndView.addObject("usuario2",user);
         modelAndView.addObject("posts",posts);
         modelAndView.addObject("post", postagem);
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/visualizar/usuario/{id}")
+    public ModelAndView viewUserPage(@PathVariable("id") Long id){
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUserName(auth.getName());
+        User user2 = userService.findById(id);
+        List<PostagemDTO> posts = postagemService.findPostagemsByUserId(id);
+        modelAndView.addObject("usuario2",user);
+        modelAndView.addObject("usuario",user2);
+        modelAndView.addObject("posts",posts);
+        modelAndView.setViewName("visualizar-usuario");
         return modelAndView;
     }
 
@@ -159,5 +178,18 @@ public class UserController {
         userService.deleteUser(id);
         redirectAttributes.addAttribute("msg", "Usuário desativado com sucesso!");
         return "redirect:/login";
+    }
+
+    @RequestMapping("/conectar/usuario/{id}")
+    public String requestUserConection(@PathVariable(name = "id") Long id, RedirectAttributes redirectAttributes){
+        Conexao conexao = new Conexao();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User userFrom = userService.findUserByUserName(auth.getName());
+        User userTo = userService.findById(id);
+        conexao.setDestinatario(userTo);
+        conexao.setRemetente(userFrom);
+        conexaoService.inserir(conexao);
+        redirectAttributes.addAttribute("msg", "Solicitação realizada!");
+        return "redirect:/home";
     }
 }
