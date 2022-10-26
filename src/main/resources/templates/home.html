@@ -75,23 +75,8 @@
                         <button type="submit" class="btn btn-primary">Postar</button>
                     </form>
                 </div>
-                        <div class="w-75">
-                            <div th:each="pst : ${posts}" class="card m-2">
-                                <div class="card-header bg-white d-inline-block">
-                                    <a th:href="@{'/visualizar/usuario/' + ${pst.postagem.user.id}}"><strong th:text="${pst.postagem.user.userName}"></strong></a>
-                                    <div class="row d-inline-block" th:if="${pst.postagem.user.userName == usuario2.userName}">
-                                        <a  th:href="@{'/editar/post/' + ${pst.postagem.id}}" class="align-content-end text-decoration-none ml-3">
-                                            <span class="icon text-primary">
-                                                <i class="fas fa-edit"></i>
-                                            </span>
-                                        </a>
-                                        <a data-toggle="modal" th:attr="data-target='#recordDeleteModal'+${pst.postagem.id}" th:href="@{'/deletar/post/' + ${pst.postagem.id}}" class="text-decoration-none" >
-                                            <span class="icon text-danger">
-                                                <i class="fas fa-trash "></i>
-                                            </span>
-                                        </a>
-                                    </div>
-
+                        <div >
+                            <div th:each="pst : ${posts}" class="w-75 m-2">
 
                                     <!-- Modal -->
                                     <div class="modal fade" th:attr="id='recordDeleteModal'+ ${pst.postagem.id}" tabindex="-1" role="dialog" aria-labelledby="recordDeleteModalLabel" aria-hidden="true">
@@ -114,36 +99,55 @@
                                         </div>
                                     </div>
 
+                                <div class="card">
+                                    <div class="card-body card-post">
+                                        <a th:href="@{'/visualizar/usuario/' + ${pst.postagem.user.id}}"><strong th:text="${pst.postagem.user.userName}"></strong></a>
 
-                                <div class="card-body card-post">
-                                    <span class="card-subtitle text-sm">Publicado às
-                                        <span th:text="${#calendars.format(pst.postagem.getDataCadastro(), 'HH:mm, dd/MM/yyyy')}">.</span>
-                                        <div th:if="${pst.postagem.getDataAtualizacao()!=null}">
-                                            Editado às <span th:text="${#calendars.format(pst.postagem.getDataAtualizacao(), 'HH:mm, dd/MM/yyyy')}"/>
+                                        <span class="card-subtitle text-sm">Publicado às
+                                            <span th:text="${#calendars.format(pst.postagem.getDataCadastro(), 'HH:mm, dd/MM/yyyy')}">.</span>
+                                            <div th:if="${pst.postagem.getDataAtualizacao()!=null}">
+                                                Editado às <span th:text="${#calendars.format(pst.postagem.getDataAtualizacao(), 'HH:mm, dd/MM/yyyy')}"/>
+                                            </div>
+                                        </span>
+                                        <h5 class="card-title" th:text="${pst.postagem.titulo}"></h5>
+                                        <p class="card-text px-2" th:text="${pst.postagem.descricao}"></p>
+                                        <div th:if="${pst.postagem.imagemUri != null}">
+                                            <img class="img-fluid px-2" alt="Responsive image" th:src="@{'/images/' + ${pst.postagem.getImagemUri()}}"/>
                                         </div>
-                                    </span>
-                                    <h5 class="card-title" th:text="${pst.postagem.titulo}"></h5>
-
-                                    <p class="card-text px-2" th:text="${pst.postagem.descricao}"></p>
-                                    <div th:if="${pst.postagem.imagemUri != null}">
-                                        <img class="img-fluid px-2" alt="Responsive image" th:src="@{'/images/' + ${pst.postagem.getImagemUri()}}"/>
                                     </div>
-                                    <div class=" py-2">
+                                    <div class="py-2 card-footer">
                                         <button th:id="|post-${pst.postagem.id}|" th:onclick="|curtirPost(${pst.postagem.id})|"
-                                                class="btn">
-                                            <span class="icon ">
-                                                <i class="fas fa-heart icone-curtida" th:classappend="${pst.curtido} ? 'text-danger': ''"></i>
-                                            </span>
+                                                class="btn ml-2">
+                                        <span class="icon ">
+                                            <i class="fas fa-heart icone-curtida" th:classappend="${pst.curtido} ? 'text-danger': ''"></i>
+                                        </span>
 
                                         </button>
                                         <span class="rounded-circle quantidade-curtidas" th:text="|${pst.postagem.curtidas} curtidas| "></span>
 
-                                        <a  th:href="@{'/comentarios/post/' + ${pst.postagem.id}}" class="btn ">
+                                        <a  th:href="@{'/comentarios/post/' + ${pst.postagem.id}}" class="btn ml-2 ">
 
                                             <i class="fas fa-comment "></i>
                                         </a>
 
+                                        <div class="row d-inline-block" th:if="${pst.postagem.user.userName == usuario2.userName}">
+                                            <a  th:href="@{'/editar/post/' + ${pst.postagem.id}}" class="align-content-end text-decoration-none ml-2">
+                                            <span class="icon text-primary ml-2">
+                                                <i class="fas fa-edit"></i>
+                                            </span>
+                                            </a>
+                                            <a data-toggle="modal" th:attr="data-target='#recordDeleteModal'+${pst.postagem.id}" th:href="@{'/deletar/post/' + ${pst.postagem.id}}" class="text-decoration-none" >
+                                            <span class="icon text-danger mx-3">
+                                                <i class="fas fa-trash "></i>
+                                            </span>
+                                            </a>
+                                        </div>
+
                                     </div>
+
+                                </div>
+
+
 
                                 </div>
                             </div>
