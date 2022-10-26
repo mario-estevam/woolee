@@ -35,10 +35,7 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
-                <!-- Page Heading -->
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Home</h1>
-                </div>
+
                 <div th:if="${#request.getParameter('msg')} !=null" class="alert alert-warning alert-dismissible fade show" role="alert">
                     <strong th:text="${#request.getParameter('msg')}"></strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -46,8 +43,8 @@
                     </button>
                 </div>
                 <!-- Content Row -->
-                <div class="card m-2">
-                    <form class="user m-3" th:action="@{/postar}" enctype="multipart/form-data"
+                <div class="card w-75 m-2">
+                    <form class="user m-3 w-100" th:action="@{/postar}" enctype="multipart/form-data"
                           method="post" autocomplete="off"  role="form">
                         <strong class="ml-2">Poste algo!</strong>
                         <br/>
@@ -63,19 +60,23 @@
                                                       placeholder="Descrição do post">
                                             </textarea>
                             </div>
-                            <div class="form-group m-3">
-                                <input type="file" name="file"/><br />
+                            <div class="form-group m-3"><div class="image-upload">
+                                <label for="file-input">
+                                    Insira uma imagem
+                                    <img class="img-fluid" src="https://img.icons8.com/office/344/add-image.png"/>
+                                </label>
+
+                                <input  id="file-input" type="file" class="custom-file-upload" name="file"/><br />
+                            </div>
+
                             </div>
 
                         </div>
                         <button type="submit" class="btn btn-primary">Postar</button>
                     </form>
                 </div>
-                <div class="">
-                <div class=" ">
-                    <div class="m-2 w-100">
-                        <div class="w-100">
-                            <div th:each="pst : ${posts}" class="card m-3">
+                        <div class="w-75">
+                            <div th:each="pst : ${posts}" class="card m-2">
                                 <div class="card-header bg-white d-inline-block">
                                     <a th:href="@{'/visualizar/usuario/' + ${pst.postagem.user.id}}"><strong th:text="${pst.postagem.user.userName}"></strong></a>
                                     <div class="row d-inline-block" th:if="${pst.postagem.user.userName == usuario2.userName}">
@@ -114,36 +115,39 @@
                                     </div>
 
 
-                                <div class="card-body">
-                                    <h5 class="card-title" th:text="${pst.postagem.titulo}"></h5>
-                                    <span class="card-subtitle">Publicado às
+                                <div class="card-body card-post">
+                                    <span class="card-subtitle text-sm">Publicado às
                                         <span th:text="${#calendars.format(pst.postagem.getDataCadastro(), 'HH:mm, dd/MM/yyyy')}">.</span>
                                         <div th:if="${pst.postagem.getDataAtualizacao()!=null}">
                                             Editado às <span th:text="${#calendars.format(pst.postagem.getDataAtualizacao(), 'HH:mm, dd/MM/yyyy')}"/>
                                         </div>
                                     </span>
-                                    <p class="card-text" th:text="${pst.postagem.descricao}"></p>
+                                    <h5 class="card-title" th:text="${pst.postagem.titulo}"></h5>
+
+                                    <p class="card-text px-2" th:text="${pst.postagem.descricao}"></p>
                                     <div th:if="${pst.postagem.imagemUri != null}">
-                                        <img class="img-fluid" alt="Responsive image" th:src="@{'/images/' + ${pst.postagem.getImagemUri()}}"/>
+                                        <img class="img-fluid px-2" alt="Responsive image" th:src="@{'/images/' + ${pst.postagem.getImagemUri()}}"/>
                                     </div>
-                                    <button th:id="|post-${pst.postagem.id}|" th:onclick="|curtirPost(${pst.postagem.id})|"
-                                              class="btn btn-primary align-content-end text-decoration-none mt-1">
-                                            <span class="icon text-white">
+                                    <div class=" py-2">
+                                        <button th:id="|post-${pst.postagem.id}|" th:onclick="|curtirPost(${pst.postagem.id})|"
+                                                class="btn">
+                                            <span class="icon ">
                                                 <i class="fas fa-heart icone-curtida" th:classappend="${pst.curtido} ? 'text-danger': ''"></i>
-                                                Curtir
-                                                <i class="rounded-circle quantidade-curtidas" th:text="${pst.postagem.curtidas}"></i>
                                             </span>
-                                    </button>
-                                    <a  th:href="@{'/comentarios/post/' + ${pst.postagem.id}}" class="btn btn-primary align-content-end text-decoration-none mt-1">
-                                            <span class="icon text-white">
-                                                <i class="fas fa-comment"></i>
-                                                Comentarios
-                                            </span>
-                                    </a>
+
+                                        </button>
+                                        <span class="rounded-circle quantidade-curtidas" th:text="|${pst.postagem.curtidas} curtidas| "></span>
+
+                                        <a  th:href="@{'/comentarios/post/' + ${pst.postagem.id}}" class="btn ">
+
+                                            <i class="fas fa-comment "></i>
+                                        </a>
+
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <!-- End of Main Content -->
 
                     <!-- Footer -->
@@ -152,10 +156,8 @@
                     </footer>
                     <!-- End of Footer -->
 
-                </div>
                 <!-- End of Content Wrapper -->
 
-            </div>
             <!-- End of Page Wrapper -->
 
             <!-- Scroll to Top Button-->

@@ -83,6 +83,29 @@ body {
   background-color: #f8f9fc;
 }
 
+
+.image-upload > input
+{
+  display: none;
+}
+
+.image-upload img
+{
+  width: 20px;
+  cursor: pointer;
+}
+.text-sm{
+  font-size: 10px;
+}
+
+.card-post{
+  max-height: 500px;
+
+}
+.card-post img{
+  max-height: 300px;
+
+}
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;
 }
