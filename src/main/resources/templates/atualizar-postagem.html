@@ -35,10 +35,6 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
-                <!-- Page Heading -->
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Atualizar Post</h1>
-                </div>
                 <div th:if="${#request.getParameter('msg')} !=null" class="alert alert-warning alert-dismissible fade show" role="alert">
                     <strong th:text="${#request.getParameter('msg')}"></strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -47,60 +43,62 @@
                 </div>
                 <!-- Content Row -->
                 <div class="card">
-                <div class="card shadow ">
+                    <div class="card-header">Atualizar postagem</div>
+                    <div class="card-body">
+                        <form class="user " th:action="@{/editar/post}" enctype="multipart/form-data"
+                              method="post" autocomplete="off"  role="form">
 
-                    <div class="m-2 w-100">
-                        <div class="w-100">
-                            <div class="card m-2">
-                                <form class="user m-3" th:action="@{/editar/post}" enctype="multipart/form-data"
-                                      method="post" autocomplete="off"  role="form">
-                                    <h1 class="h4 text-gray-900 mb-4">Atualizar Postagem</h1>
-                                    <span class="text-success text-center" th:utext="${successMessage}"></span>
-                                    <br/>
-                                    <div class="form-group">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input hidden th:field="${post.id}">
-                                            <input hidden th:field="${post.user.id}">
-                                            <input hidden th:field="${post.user}">
-                                            <input hidden th:field="${post.dataCadastro}">
+                            <div th:if="${successMessage} != null" class="alert alert-success" th:text="${successMessage}" role="alert">
+                                A simple success alert—check it out!
+                            </div>
 
-                                            <input th:field="${post.titulo}" type="text" class="form-control" id="exampleFirstName"
-                                                   placeholder="Titulo">
+                            <div class="form-group">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input hidden th:field="${post.id}">
+                                    <input hidden th:field="${post.user.id}">
+                                    <input hidden th:field="${post.user}">
+                                    <input hidden th:field="${post.dataCadastro}">
+                                    <label>Título da postagem</label>
+                                    <input th:field="${post.titulo}" type="text" class="form-control" id="exampleFirstName"
+                                           placeholder="Titulo">
+                                </div>
+                                <br/>
+                                <div class="col-sm-6">
+                                    <label>Descrição</label>
+                                    <textarea rows="3" th:field="${post.descricao}" type="text" class="form-control" id="exampleLastName"
+                                              placeholder="Descrição do post">
+                                    </textarea>
+                                </div>
+                                <div class="form-group m-3">
+                                    <div th:if="${post.imagemUri != null}">
+                                        <div class="image-upload">
+                                            <label for="file-input">
+                                                Insira uma imagem
+                                                <img class="img-fluid" src="https://img.icons8.com/office/344/add-image.png"/>
+                                            </label>
+                                            <input  id="file-input" type="file" class="custom-file-upload" name="file"/><br />
+
                                         </div>
-                                        <br/>
-                                        <div class="col-sm-6">
-                                            <textarea rows="3" th:field="${post.descricao}" type="text" class="form-control" id="exampleLastName"
-                                                      placeholder="Descrição do post">
-                                            </textarea>
-                                        </div>
-                                        <div class="form-group m-3">
-                                            <div th:if="${post.imagemUri != null}">
-                                                <label>Imagem anterior:</label>
-                                                <img width="200px" class="img-fluid" alt="Responsive image" th:src="@{'/images/' + ${post.getImagemUri()}}"/>
-                                                <input type="file" name="file"/><br />
-                                            </div>
-                                        </div>
+
+
+                                        <label>Imagem anterior:</label>
+                                        <img width="200px" class="img-fluid" alt="Responsive image" th:src="@{'/images/' + ${post.getImagemUri()}}"/>
 
                                     </div>
-                                    <button type="submit" class="ml-2 btn btn-primary">Postar</button>
-                                </form>
+                                </div>
+
                             </div>
-                        </div>
+                            <button type="submit" class="ml-2 btn btn-primary">Atualizar</button>
+                        </form>
+                    </div>
                     <!-- End of Main Content -->
 
                     <!-- Footer -->
-                    <footer th:replace="fragments/footer :: fragment-footer" >
 
-                    </footer>
                     <!-- End of Footer -->
 
                 </div>
-                <!-- End of Content Wrapper -->
 
-            </div>
-            <!-- End of Page Wrapper -->
-
-            <!-- Scroll to Top Button-->
             <a class="scroll-to-top rounded" href="#page-top">
                 <i class="fas fa-angle-up"></i>
             </a>
@@ -110,6 +108,9 @@
 
             </div>
         </div>
+                <footer th:replace="fragments/footer :: fragment-footer" >
+
+                </footer>
     </div>
 </div>
 

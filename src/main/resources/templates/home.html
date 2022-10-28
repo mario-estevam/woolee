@@ -60,7 +60,8 @@
                                                       placeholder="Descrição do post">
                                             </textarea>
                             </div>
-                            <div class="form-group m-3"><div class="image-upload">
+                            <div class="form-group m-3">
+                                <div class="image-upload">
                                 <label for="file-input">
                                     Insira uma imagem
                                     <img class="img-fluid" src="https://img.icons8.com/office/344/add-image.png"/>
@@ -83,7 +84,7 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="recordDeleteModalLabel">Deletar Post</h5>
+                                                    <h5 class="modal-title" id="recordDeleteModalLabel">Exclusão de post</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -93,7 +94,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
-                                                    <a href="newRecordForm.html" class="btn btn-primary" th:attr="href='/deletar/post/'+${pst.postagem.id}">Sim</a>
+                                                    <a href="newRecordForm.html" class="btn btn-danger" th:attr="href='/deletar/post/'+${pst.postagem.id}">Sim</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -115,15 +116,15 @@
                                             <img class="img-fluid px-2" alt="Responsive image" th:src="@{'/images/' + ${pst.postagem.getImagemUri()}}"/>
                                         </div>
                                     </div>
-                                    <div class="py-2 card-footer">
-                                        <button th:id="|post-${pst.postagem.id}|" th:onclick="|curtirPost(${pst.postagem.id})|"
+                                    <div class="py-2 card-footer" th:id="|post-${pst.postagem.id}|">
+                                        <button  th:onclick="|curtirPost(${pst.postagem.id})|"
                                                 class="btn ml-2">
                                         <span class="icon ">
                                             <i class="fas fa-heart icone-curtida" th:classappend="${pst.curtido} ? 'text-danger': ''"></i>
                                         </span>
 
                                         </button>
-                                        <span class="rounded-circle quantidade-curtidas" th:text="|${pst.postagem.curtidas} curtidas| "></span>
+                                        <span  class="rounded-circle quantidade-curtidas" th:text="|${pst.postagem.curtidas} curtidas| "></span>
 
                                         <a  th:href="@{'/comentarios/post/' + ${pst.postagem.id}}" class="btn ml-2 ">
 

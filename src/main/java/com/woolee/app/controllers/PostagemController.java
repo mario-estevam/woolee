@@ -114,7 +114,7 @@ public class PostagemController {
         postagem.setIsDeleted(false);
         service.insert(postagem);
         modelAndView.addObject("successMessage", "Post atualizado com sucesso");
-        modelAndView.addObject("post", new Postagem());
+        modelAndView.addObject("post", postagem);
         modelAndView.setViewName("atualizar-postagem");
         return modelAndView;
     }

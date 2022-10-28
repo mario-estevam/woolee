@@ -6,7 +6,7 @@ const curtirPost = async (id) =>{
    response.text().then((value) => {
 
       iconeCurtidas.classList.toggle('text-danger');
-      quantidadeCurtidas.innerHTML = value;
+      quantidadeCurtidas.innerHTML = `${value} curtidas`;
    });}
 
 function openModalExcluir(id) {
