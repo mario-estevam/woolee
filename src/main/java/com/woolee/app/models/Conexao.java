@@ -12,7 +12,6 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "conexao")
 public class Conexao {
 
     @Id
@@ -31,6 +30,6 @@ public class Conexao {
     private Date dataConexao;
 
     @Column
-    private boolean situacao;
+    private Boolean situacao;
 
 }

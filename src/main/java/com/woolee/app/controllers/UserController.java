@@ -43,6 +43,7 @@ public class UserController {
     @Autowired
     ConexaoService conexaoService;
 
+
     @GetMapping(value={"/", "/login"})
     public ModelAndView login(){
         ModelAndView modelAndView = new ModelAndView();
@@ -80,12 +81,17 @@ public class UserController {
     public ModelAndView viewUserPage(@PathVariable("id") Long id){
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserName(auth.getName());
-        User user2 = userService.findById(id);
+        User user2 = userService.findUserByUserName(auth.getName());
+        User user = userService.findById(id);
         List<PostagemDTO> posts = postagemService.findPostagemsByUserId(id);
-        modelAndView.addObject("usuario2",user);
-        modelAndView.addObject("usuario",user2);
+        Conexao conexao = conexaoService.findConexaoByRemetenteAndDestinatario(user2, user);
+        if(conexao == null){
+            conexao = conexaoService.findConexaoByRemetenteAndDestinatario(user,user2);
+        }
+        modelAndView.addObject("usuario2",user2);
+        modelAndView.addObject("usuario",user);
         modelAndView.addObject("posts",posts);
+        modelAndView.addObject("conexao", conexao);
         modelAndView.setViewName("visualizar-usuario");
         return modelAndView;
     }
@@ -180,16 +186,4 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @RequestMapping("/conectar/usuario/{id}")
-    public String requestUserConection(@PathVariable(name = "id") Long id, RedirectAttributes redirectAttributes){
-        Conexao conexao = new Conexao();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User userFrom = userService.findUserByUserName(auth.getName());
-        User userTo = userService.findById(id);
-        conexao.setDestinatario(userTo);
-        conexao.setRemetente(userFrom);
-        conexaoService.inserir(conexao);
-        redirectAttributes.addAttribute("msg", "Solicitação realizada!");
-        return "redirect:/home";
-    }
 }

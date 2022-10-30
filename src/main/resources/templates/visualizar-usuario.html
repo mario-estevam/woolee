@@ -50,10 +50,28 @@
                     <div class="card shadow ">
                         <div  class="card-header py-3">
                             <h6 th:text="${usuario.userName}" class="m-0 font-weight-bold text-primary"></h6>
-                            <a  th:href="@{'/conectar/usuario/' + ${usuario.id}}" th:if="${usuario.userName != usuario2.userName}" class="btn btn-primary align-content-end text-decoration-none mt-1">
+                            <a  th:href="@{'/solicitar/conexao/' + ${usuario.id}}" th:if="${conexao == null && usuario.userName != usuario2.userName }" class="btn btn-primary align-content-end text-decoration-none mt-1">
                                 <span class="icon text-white" >
                                     <i class="fas fa-user-plus"></i>
                                     Conectar
+                                </span>
+                            </a>
+                            <a  th:href="@{'/excluir/conexao/' + ${conexao.id}}" th:if="${conexao != null && (conexao.remetente.userName == usuario2.userName && conexao.situacao == false )}" class="btn btn-primary align-content-end text-decoration-none mt-1">
+                                <span class="icon text-white" >
+                                    <i class="fas fa-ban"></i>
+                                    Cancelar
+                                </span>
+                            </a>
+                            <a  th:href="@{'/confirmar/conexao/' + ${conexao.id}}" th:if="${conexao != null && (usuario2.userName == conexao.destinatario.userName && conexao.situacao == false )}" class="btn btn-primary align-content-end text-decoration-none mt-1">
+                                <span class="icon text-white" >
+                                    <i class="fas fa-user-plus"></i>
+                                    Aceitar solicitação
+                                </span>
+                            </a>
+                            <a  th:href="@{'/excluir/conexao/' + ${conexao.id}}" th:if="${conexao != null && (usuario.userName != usuario2.userName && conexao.situacao == true )}" class="btn btn-primary align-content-end text-decoration-none mt-1">
+                                <span class="icon text-white" >
+                                    <i class="fas fa-user-times"></i>
+                                    Desfazer
                                 </span>
                             </a>
                         </div>
