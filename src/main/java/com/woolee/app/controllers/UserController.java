@@ -84,9 +84,9 @@ public class UserController {
         User user2 = userService.findUserByUserName(auth.getName());
         User user = userService.findById(id);
         List<PostagemDTO> posts = postagemService.findPostagemsByUserId(id);
-        Conexao conexao = conexaoService.findConexaoByRemetenteAndDestinatario(user2, user);
+        Conexao conexao = conexaoService.findConexaoByRemetenteAndDestinatarioAndDeletedAtIsNull(user2, user);
         if(conexao == null){
-            conexao = conexaoService.findConexaoByRemetenteAndDestinatario(user,user2);
+            conexao = conexaoService.findConexaoByRemetenteAndDestinatarioAndDeletedAtIsNull(user,user2);
         }
         modelAndView.addObject("usuario2",user2);
         modelAndView.addObject("usuario",user);

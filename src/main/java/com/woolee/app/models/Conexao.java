@@ -32,4 +32,7 @@ public class Conexao {
     @Column
     private Boolean situacao;
 
+    @Column
+    private Date deletedAt;
+
 }

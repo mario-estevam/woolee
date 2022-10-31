@@ -6,6 +6,7 @@ import com.woolee.app.repositories.ConexaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,19 +18,21 @@ public class ConexaoService {
         conexaoRepository.save(conexao);
     }
 
-    public List<Conexao> findConexaosByDestinatarioAndSituacao(User destinarario, Boolean situacao){
-        return conexaoRepository.findConexaosByDestinatarioAndSituacao(destinarario, situacao);
+    public List<Conexao> findConexaosByDestinatarioAndSituacaoAndDeletedAtIsNull(User destinarario, Boolean situacao){
+        return conexaoRepository.findConexaosByDestinatarioAndSituacaoAndDeletedAtIsNull(destinarario, situacao);
     }
 
     public Conexao findConexaoById(Long id){
         return conexaoRepository.findConexaoById(id);
     }
 
-    public Conexao findConexaoByRemetenteAndDestinatario(User remetente, User destinatario){
-        return conexaoRepository.findConexaoByRemetenteAndDestinatario(remetente, destinatario);
+    public Conexao findConexaoByRemetenteAndDestinatarioAndDeletedAtIsNull(User remetente, User destinatario){
+        return conexaoRepository.findConexaoByRemetenteAndDestinatarioAndDeletedAtIsNull(remetente, destinatario);
     }
 
     public void delete(Long id){
-        conexaoRepository.deleteById(id);
+        Conexao conexao = findConexaoById(id);
+        conexao.setDeletedAt(new Date());
+        conexaoRepository.save(conexao);
     }
 }

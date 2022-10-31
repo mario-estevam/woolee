@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface ConexaoRepository extends JpaRepository<Conexao, Long> {
 
-    List<Conexao> findConexaosByDestinatarioAndSituacao(User destinatario, Boolean situacao);
+    List<Conexao> findConexaosByDestinatarioAndSituacaoAndDeletedAtIsNull(User destinatario, Boolean situacao);
 
-    Conexao findConexaoByRemetenteAndDestinatario(User remetente, User destinatario);
+    Conexao findConexaoByRemetenteAndDestinatarioAndDeletedAtIsNull(User remetente, User destinatario);
 
     Conexao findConexaoById(Long id);
 

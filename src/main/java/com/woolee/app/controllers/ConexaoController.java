@@ -57,7 +57,7 @@ public class ConexaoController {
         User user = userService.findUserByUserName(auth.getName());
         ModelAndView modelAndView = new ModelAndView();
 
-        List<Conexao> conexoes = conexaoService.findConexaosByDestinatarioAndSituacao(user, false);
+        List<Conexao> conexoes = conexaoService.findConexaosByDestinatarioAndSituacaoAndDeletedAtIsNull(user, false);
         modelAndView.addObject("requests", conexoes);
         modelAndView.addObject("usuario2",user);
         modelAndView.setViewName("conexoes");
