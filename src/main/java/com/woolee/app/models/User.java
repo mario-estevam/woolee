@@ -1,5 +1,6 @@
 package com.woolee.app.models;
 
+import com.woolee.app.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,11 +50,10 @@ public class User {
     private Set<Role> roles;
 
     @Transient
-    private List<Conexao> minhasConexoes;
+    private List<User> usersConnected;
 
     @OneToOne
     @JoinColumn(name = "role_id")
     Role role;
-
 
 }

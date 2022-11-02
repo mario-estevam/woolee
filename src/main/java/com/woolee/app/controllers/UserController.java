@@ -69,7 +69,9 @@ public class UserController {
         User user = userService.findUserByUserName(auth.getName());
         ModelAndView modelAndView = new ModelAndView("home");
         Postagem postagem = new Postagem();
-        List<PostagemDTO> posts = postagemService.findPostagemByIsDeletedFalse();
+        List<User> users = userService.findUsersConnectedByUser(user);
+        users.add(user);
+        List<PostagemDTO> posts = postagemService.findPostagemsByUsers(users);
         postagem.setUser(user);
         modelAndView.addObject("usuario2",user);
         modelAndView.addObject("posts",posts);

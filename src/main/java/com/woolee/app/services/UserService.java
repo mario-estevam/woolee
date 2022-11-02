@@ -3,6 +3,7 @@ package com.woolee.app.services;
 
 import com.woolee.app.models.Role;
 import com.woolee.app.models.User;
+import com.woolee.app.repositories.ConexaoRepository;
 import com.woolee.app.repositories.RoleRepository;
 import com.woolee.app.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +17,18 @@ public class UserService {
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
+    private ConexaoRepository conexaoRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @Autowired
     public UserService(UserRepository userRepository,
                        RoleRepository roleRepository,
+                       ConexaoRepository conexaoRepository,
                        BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-
+        this.conexaoRepository = conexaoRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -83,5 +86,11 @@ public class UserService {
             u.setActive(false);
         }
         userRepository.save(u);
+    }
+
+    public List<User> findUsersConnectedByUser(User user){
+        List<User> conexoes = conexaoRepository.findConexaosByRemetenteAndDeletedAtIsNullSituacaoTrue(user);
+        conexoes.addAll(conexaoRepository.findConexaosByDestinatarioAndDeletedAtIsNullAndSituacaoTrue(user));
+        return conexoes;
     }
 }
