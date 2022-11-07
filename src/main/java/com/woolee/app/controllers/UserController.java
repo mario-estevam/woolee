@@ -2,10 +2,7 @@ package com.woolee.app.controllers;
 
 
 import com.woolee.app.dtos.PostagemDTO;
-import com.woolee.app.models.Comentario;
-import com.woolee.app.models.Conexao;
-import com.woolee.app.models.Postagem;
-import com.woolee.app.models.User;
+import com.woolee.app.models.*;
 import com.woolee.app.repositories.RoleRepository;
 import com.woolee.app.services.ConexaoService;
 import com.woolee.app.services.PostagemService;
@@ -23,9 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 @Controller
@@ -71,11 +66,31 @@ public class UserController {
         Postagem postagem = new Postagem();
         List<User> users = userService.findUsersConnectedByUser(user);
         users.add(user);
-        List<PostagemDTO> posts = postagemService.findPostagemsByUsers(users);
+        List<PostagemDTO> posts = postagemService.findPostagensByUsers(users);
         postagem.setUser(user);
         modelAndView.addObject("usuario2",user);
         modelAndView.addObject("posts",posts);
         modelAndView.addObject("post", postagem);
+        return modelAndView;
+    }
+
+    @GetMapping(value = {"/explorar"})
+    public ModelAndView explorar(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUserName(auth.getName());
+        List<Temas> temas = user.getTemas();
+        ModelAndView modelAndView = new ModelAndView("explorar");
+        Set<User> uniqueUsers = new HashSet<>();
+        List<User> users = new ArrayList<>();
+        temas.forEach(tema -> {
+            uniqueUsers.addAll(userService.findUsersByTema(tema));
+        });
+        uniqueUsers.forEach(u -> {
+            users.add(u);
+        });
+        List<PostagemDTO> posts = postagemService.findPostagensByUsers(users);
+        modelAndView.addObject("usuario2", user);
+        modelAndView.addObject("posts", posts);
         return modelAndView;
     }
 

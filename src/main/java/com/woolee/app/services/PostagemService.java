@@ -2,10 +2,7 @@ package com.woolee.app.services;
 
 
 import com.woolee.app.dtos.PostagemDTO;
-import com.woolee.app.models.Comentario;
-import com.woolee.app.models.Curtidas;
-import com.woolee.app.models.Postagem;
-import com.woolee.app.models.User;
+import com.woolee.app.models.*;
 import com.woolee.app.repositories.ComentarioRepository;
 import com.woolee.app.repositories.CurtidasRepository;
 import com.woolee.app.repositories.PostagemRepository;
@@ -143,7 +140,7 @@ public class PostagemService {
         return postsDTO;
     }
 
-    public List<PostagemDTO> findPostagemsByUsers(List<User> users) {
+    public List<PostagemDTO> findPostagensByUsers(List<User> users) {
         List<PostagemDTO> postsDTO = new ArrayList<>();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
