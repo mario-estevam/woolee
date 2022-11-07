@@ -2,6 +2,7 @@ package com.woolee.app.services;
 
 
 import com.woolee.app.models.Role;
+import com.woolee.app.models.Temas;
 import com.woolee.app.models.User;
 import com.woolee.app.repositories.ConexaoRepository;
 import com.woolee.app.repositories.RoleRepository;
@@ -56,6 +57,10 @@ public class UserService {
 
     public List<User> getAll(){
         return userRepository.findAll();
+    }
+
+    public List<User> findUsersByTema(Temas temas) {
+        return userRepository.findAllByTemas(temas);
     }
 
     public User findUserByUserName(String userName) {
