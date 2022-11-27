@@ -94,6 +94,17 @@ public class UserController {
         return modelAndView;
     }
 
+    @GetMapping(value = {"/em-alta"})
+    public ModelAndView emAlta(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUserName(auth.getName());
+        ModelAndView modelAndView = new ModelAndView("alta");
+        List<PostagemDTO> posts = postagemService.findPostsEmAlta();
+        modelAndView.addObject("usuario2", user);
+        modelAndView.addObject("posts", posts);
+        return modelAndView;
+    }
+
     @GetMapping(value = "/visualizar/usuario/{id}")
     public ModelAndView viewUserPage(@PathVariable("id") Long id){
         ModelAndView modelAndView = new ModelAndView();

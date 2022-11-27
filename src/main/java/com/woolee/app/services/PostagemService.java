@@ -44,20 +44,7 @@ public class PostagemService {
         List<PostagemDTO> postsDTO = new ArrayList<>();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
-        posts.forEach( p -> {
-            PostagemDTO postagemDTO = new PostagemDTO();
-            Integer curtidas = curtidasRepository.countAllByPostagem(p);
-            p.setCurtidas(curtidas);
-            Optional<Curtidas> jaCurtiu = curtidasRepository.findByUserAndPostagem(user,p);
-            postagemDTO.setPostagem(p);
-            if(jaCurtiu.isPresent()){
-                postagemDTO.setCurtido(true);
-            }else{
-                postagemDTO.setCurtido(false);
-            }
-            postsDTO.add(postagemDTO);
-        });
-        return postsDTO;
+        return getPostagemDTOS(postsDTO, user, posts);
     }
 
     public Postagem findById(Long id){
@@ -124,6 +111,26 @@ public class PostagemService {
         List<PostagemDTO> postsDTO = new ArrayList<>();
         User user = userService.findById(idUsuario);
         List<Postagem> posts = repository.findPostagemsByUserId(idUsuario);
+        return getPostagemDTOS(postsDTO, user, posts);
+    }
+
+    public List<PostagemDTO> findPostsEmAlta(){
+        List<Postagem> posts = repository.findPostsEmAlta();
+        List<PostagemDTO> postsDTO = new ArrayList<>();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUserName(auth.getName());
+        return getPostagemDTOS(postsDTO, user, posts);
+    }
+
+    public List<PostagemDTO> findPostagensByUsers(List<User> users) {
+        List<PostagemDTO> postsDTO = new ArrayList<>();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUserName(auth.getName());
+        List<Postagem> posts = repository.findPostagemsByUsers(users);
+        return getPostagemDTOS(postsDTO, user, posts);
+    }
+
+    private List<PostagemDTO> getPostagemDTOS(List<PostagemDTO> postsDTO, User user, List<Postagem> posts) {
         posts.forEach(p -> {
             PostagemDTO postagemDTO = new PostagemDTO();
             Integer curtidas = curtidasRepository.countAllByPostagem(p);
@@ -140,24 +147,5 @@ public class PostagemService {
         return postsDTO;
     }
 
-    public List<PostagemDTO> findPostagensByUsers(List<User> users) {
-        List<PostagemDTO> postsDTO = new ArrayList<>();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserName(auth.getName());
-        List<Postagem> posts = repository.findPostagemsByUsers(users);
-        posts.forEach(p -> {
-            PostagemDTO postagemDTO = new PostagemDTO();
-            Integer curtidas = curtidasRepository.countAllByPostagem(p);
-            p.setCurtidas(curtidas);
-            Optional<Curtidas> jaCurtiu = curtidasRepository.findByUserAndPostagem(user, p);
-            postagemDTO.setPostagem(p);
-            if (jaCurtiu.isPresent()) {
-                postagemDTO.setCurtido(true);
-            } else {
-                postagemDTO.setCurtido(false);
-            }
-            postsDTO.add(postagemDTO);
-        });
-        return postsDTO;
-    }
+
 }
