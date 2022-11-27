@@ -124,6 +124,24 @@ public class UserController {
         return modelAndView;
     }
 
+    @GetMapping(value = "/visualizar-perfil")
+    public ModelAndView visualizarPerfil(){
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user2 = userService.findUserByUserName(auth.getName());
+        List<PostagemDTO> posts = postagemService.findPostagemsByUserId(user2.getId());
+        Conexao conexao = conexaoService.findConexaoByRemetenteAndDestinatarioAndDeletedAtIsNull(user2, user2);
+        if(conexao == null){
+            conexao = conexaoService.findConexaoByRemetenteAndDestinatarioAndDeletedAtIsNull(user2,user2);
+        }
+        modelAndView.addObject("usuario2",user2);
+        modelAndView.addObject("usuario",user2);
+        modelAndView.addObject("posts",posts);
+        modelAndView.addObject("conexao", conexao);
+        modelAndView.setViewName("perfil");
+        return modelAndView;
+    }
+
     @GetMapping(value={"/voltar"})
     public String voltar(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
