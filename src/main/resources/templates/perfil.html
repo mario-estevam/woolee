@@ -50,6 +50,11 @@
                     <div class="card shadow ">
                         <div  class="card-header py-3">
                           <strong>Meu Nome de usuário:</strong>  <h6 th:text="${usuario.userName}" class="m-0 font-weight-bold text-primary"></h6>
+                            <hr/>
+                            <strong>Meus interesses:</strong>
+                            <div th:each="interesse : ${usuario.getTemas()}" class="m-0 font-weight-bold text-primary">
+                                <h6 th:text="${interesse.descricao}"></h6>
+                            </div>
                         </div>
                         <div class="m-2 w-100">
                             <div class="w-100">
